@@ -1,11 +1,12 @@
 import React from 'react';
+import LogoSvg from '~/logo.svg';
 
-import { HeaderStyled } from './styles';
-
-import Logo from '~/components/logo';
+import { HeaderStyled, LogoStyled } from './styles';
 
 const Header = () => (
-  <HeaderStyled><Logo /></HeaderStyled>
+  <HeaderStyled>
+    <LogoStyled src={LogoSvg} alt="Logo Star Wars"/>
+  </HeaderStyled>
 );
 
 export default Header;

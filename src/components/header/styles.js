@@ -7,3 +7,7 @@ export const HeaderStyled = styled.header`
   width: 100%;
   padding: 16px 0;
 `;
+
+export const LogoStyled = styled.img`
+  width: 250px;
+`;
