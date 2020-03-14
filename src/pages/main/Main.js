@@ -1,7 +1,14 @@
 import React from 'react';
 
-const Main = () => (
-  <h1>Hello World!</h1>
-);
+import useCharactersList  from '~/hooks/CharactersList';
+import CharactersList from '~/components/CharactersList';
+
+const Main = () => {
+  const [list] = useCharactersList();
+
+  return (
+    <CharactersList list={list} />
+  );
+};
 
 export default Main;
