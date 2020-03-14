@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-const LIST_CHARACTERS = gql`
-  {
-    allPeople(first:10) {
+const GET_LIST_PEOPLE = gql`
+  query listPeople($length: Int!, $endCursor: String!){
+    allPeople(first: $length, after: $endCursor) {
       totalCount,
-       pageInfo {
-        hasNextPage
+      pageInfo {
+        hasNextPage,
+        endCursor
       },
       edges {
         node {
@@ -24,8 +25,8 @@ const LIST_CHARACTERS = gql`
         }
       }
     }
-  }
-`;
+  }`
+;
 
 const handleCharactersList = (characters) => {
   const list = characters.map(char => {
@@ -44,18 +45,46 @@ const handleCharactersList = (characters) => {
   return list;
 };
 
-const CharactersList = () => {
+const CharactersList = (length = 10, endCursor = "") => {
   const [charactersList, setCharactersList] = useState([]);
-  const { data } = useQuery(LIST_CHARACTERS);
+  const [totalCount, setTotalCount] = useState(0);
+  const [pageInfo, setPageInfo] = useState({
+    hasNextPage: false,
+    endCursor: '',
+  });
+  
+  const { data, fetchMore } = useQuery(GET_LIST_PEOPLE, {
+    variables: { length, endCursor }
+  });
+
+  const updateList = (length, endCursor) => {
+    fetchMore({
+      variables: { length, endCursor },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        const {
+          pageInfo,
+          edges: newCharacters
+        } = fetchMoreResult.allPeople;
+
+        setPageInfo(pageInfo);
+        setCharactersList(
+          charactersList.concat(handleCharactersList(newCharacters))
+        );
+      },
+    });
+  };
 
   useEffect(() => {
     if (data) {
-      const { edges: characters } = data.allPeople;
+      const { totalCount, pageInfo, edges: characters } = data.allPeople;
+
+      setTotalCount(totalCount);
+      setPageInfo(pageInfo);
       setCharactersList(handleCharactersList(characters));
     }
   }, [data]);
 
-  return [ charactersList, setCharactersList];
+  return [ charactersList, totalCount, pageInfo, updateList];
 };
 
 export default CharactersList;
