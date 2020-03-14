@@ -18,6 +18,7 @@ const GET_LIST_PEOPLE = gql`
           filmConnection {
             edges {
               node {
+                id,
                 title
               }
             }
@@ -32,7 +33,7 @@ const handleCharactersList = (characters) => {
   const list = characters.map(char => {
     let character = char.node;
     let movies = character.filmConnection
-      .edges.map(movie => movie.node.title);
+      .edges.map(movie => movie.node);
 
     return {
       id: character.id,
@@ -57,34 +58,35 @@ const CharactersList = (length = 10, endCursor = "") => {
     variables: { length, endCursor }
   });
 
-  const updateList = (length, endCursor) => {
+  const updateListData = (list) => {
+    const {
+      totalCount,
+      pageInfo,
+      edges: characters
+    } = list.allPeople;
+
+    const newCharsList = handleCharactersList(characters);
+    setTotalCount(totalCount);
+    setPageInfo(pageInfo);
+    setCharactersList([...charactersList, ...newCharsList]);
+  };
+
+  const fetchMoreCharacters = (length, endCursor) => {
     fetchMore({
       variables: { length, endCursor },
       updateQuery: (prev, { fetchMoreResult }) => {
-        const {
-          pageInfo,
-          edges: newCharacters
-        } = fetchMoreResult.allPeople;
-
-        setPageInfo(pageInfo);
-        setCharactersList(
-          charactersList.concat(handleCharactersList(newCharacters))
-        );
+        updateListData(fetchMoreResult);
       },
     });
   };
 
   useEffect(() => {
     if (data) {
-      const { totalCount, pageInfo, edges: characters } = data.allPeople;
-
-      setTotalCount(totalCount);
-      setPageInfo(pageInfo);
-      setCharactersList(handleCharactersList(characters));
+      updateListData(data);
     }
   }, [data]);
 
-  return [ charactersList, totalCount, pageInfo, updateList];
+  return [ charactersList, totalCount, pageInfo, fetchMoreCharacters];
 };
 
 export default CharactersList;

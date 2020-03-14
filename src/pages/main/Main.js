@@ -9,7 +9,7 @@ const Main = () => {
   const loadMoreCharacters = () => {
     getMore(10, pageInfo.endCursor);
   }
-  
+
   return (
     <CharactersList
       list={list}
