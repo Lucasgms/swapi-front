@@ -10,8 +10,7 @@ import {
   MoviesList,
 } from './styles';
 
-const CharacterCard = (props) => {
-  const { character } = props;
+const CharacterCard = ({ character }) => {
   const buttonType = 'primary';
 
   return (
@@ -24,8 +23,8 @@ const CharacterCard = (props) => {
       <MoviesList>
         <CardLabel>Movies:</CardLabel>
         {character.movies.map((movie, index) => (
-          <span key={index}>&nbsp; 
-            {movie}{ index !== character.movies.length - 1 ? ',' : '.'}
+          <span key={movie.id}>&nbsp; 
+            {movie.title}{ index !== character.movies.length - 1 ? ',' : '.'}
           </span>
         ))}
       </MoviesList>

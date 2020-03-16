@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@apollo/react-hooks';
 import { gql } from 'apollo-boost';
 
-const LIST_CHARACTERS = gql`
-  {
-    allPeople(first:10) {
+const GET_LIST_PEOPLE = gql`
+  query listPeople($length: Int!, $endCursor: String!){
+    allPeople(first: $length, after: $endCursor) {
       totalCount,
-       pageInfo {
-        hasNextPage
+      pageInfo {
+        hasNextPage,
+        endCursor
       },
       edges {
         node {
@@ -17,6 +18,7 @@ const LIST_CHARACTERS = gql`
           filmConnection {
             edges {
               node {
+                id,
                 title
               }
             }
@@ -24,14 +26,14 @@ const LIST_CHARACTERS = gql`
         }
       }
     }
-  }
-`;
+  }`
+;
 
 const handleCharactersList = (characters) => {
   const list = characters.map(char => {
     let character = char.node;
     let movies = character.filmConnection
-      .edges.map(movie => movie.node.title);
+      .edges.map(movie => movie.node);
 
     return {
       id: character.id,
@@ -44,18 +46,51 @@ const handleCharactersList = (characters) => {
   return list;
 };
 
-const CharactersList = () => {
+const CharactersList = (length = 10, endCursor = "") => {
   const [charactersList, setCharactersList] = useState([]);
-  const { data } = useQuery(LIST_CHARACTERS);
+  const [totalCount, setTotalCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [pageInfo, setPageInfo] = useState({
+    hasNextPage: false,
+    endCursor: '',
+  });
+  
+  const { data, fetchMore } = useQuery(GET_LIST_PEOPLE, {
+    variables: { length, endCursor }
+  });
+
+  const updateListData = (list) => {
+    const {
+      totalCount,
+      pageInfo,
+      edges: characters
+    } = list.allPeople;
+
+    const newCharsList = handleCharactersList(characters);
+    setTotalCount(totalCount);
+    setPageInfo(pageInfo);
+    setCharactersList([...charactersList, ...newCharsList]);
+
+    setIsLoading(false)
+  };
+
+  const fetchMoreCharacters = (length, endCursor) => {
+    setIsLoading(true);
+    fetchMore({
+      variables: { length, endCursor },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        updateListData(fetchMoreResult);
+      },
+    });
+  };
 
   useEffect(() => {
     if (data) {
-      const { edges: characters } = data.allPeople;
-      setCharactersList(handleCharactersList(characters));
+      updateListData(data);
     }
   }, [data]);
 
-  return [ charactersList, setCharactersList];
+  return [ charactersList, totalCount, pageInfo, isLoading, fetchMoreCharacters];
 };
 
 export default CharactersList;

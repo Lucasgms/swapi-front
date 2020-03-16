@@ -1,10 +1,21 @@
 import React from 'react';
+import debounce from "lodash.debounce";
 
 import CharacterCard from '~/components/CharacterCard';
+
 import {ListStyled} from './styles'; 
 
-const CharactersList = (props) => {
-  const { list } = props;
+const CharactersList = ({list, hasNext, loadCharacters}) => {
+
+  window.onscroll = debounce(() => {
+    if (
+      hasNext &&
+      (window.innerHeight + window.scrollY)
+      === document.body.scrollHeight
+    ) {
+      loadCharacters();
+    }
+  }, 250);
 
   return (
     <ListStyled>
