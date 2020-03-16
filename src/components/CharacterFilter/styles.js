@@ -41,7 +41,8 @@ export const InputBlockStyled = styled.div`
     display: block;
   }
 
-  input {
+  input,
+  select {
     width: 100%;
     height: 32px;
     font-size: 14px;
@@ -49,4 +50,11 @@ export const InputBlockStyled = styled.div`
     border: 0;
     border-bottom: 1px solid #EEE;
   }
+`;
+
+export const SelectStyled = styled.select`
+  display: block;
+  background-color: #FFF;
+  color: #30455C;
+  border-radius: 0;
 `;

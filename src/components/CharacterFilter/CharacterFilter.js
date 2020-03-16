@@ -8,6 +8,7 @@ import {
   TitleStyled,
   FormStyled,
   InputBlockStyled,
+  SelectStyled,
 } from './styles';
 
 const CharacterFilter = () => {
@@ -17,30 +18,35 @@ const CharacterFilter = () => {
   const buttonClass = 'primary';
   const buttonType = 'submit';
 
+  const genders = ['Male', 'Female', 'unknown', 'n/a'];
+
   return (
     <CharacterFilterStyled>
-      <TitleStyled>Filtros</TitleStyled>
+      <TitleStyled>Filters</TitleStyled>
       <FormStyled action="">
         <InputBlockStyled className="input-block">
-          <label htmlFor="name">Nome do personagem</label>
+          <label htmlFor="name">Name:</label>
           <input
             name="name"
             id="name"
             value={name}
             onChange={e => setName(e.target.value)}
+            autocomplete="off"
           />
         </InputBlockStyled>
         <InputBlockStyled className="input-block">
-          <label htmlFor="gender">Gênero do personagem</label>
-          <input
+          <label htmlFor="gender">Gender:</label>
+          <SelectStyled
             name="gender"
             id="gender"
-            value={gender}
-            onChange={e => setGender(e.target.value)}
-          />
+          >
+            {genders.map((gender, index) => (
+              <option key={index} value={gender}>{gender}</option>
+            ))}
+          </SelectStyled>
         </InputBlockStyled>
         <InputBlockStyled className="input-block">
-          <label htmlFor="birthYear">Ano de nascimento</label>
+          <label htmlFor="birthYear">Birth Year:</label>
           <input
             name="birthYear"
             id="birthYear"
@@ -52,7 +58,7 @@ const CharacterFilter = () => {
           buttonClass={buttonClass}
           type={buttonType}
         >
-          Filtrar
+          Filter
         </Button>
       </FormStyled>
     </CharacterFilterStyled>
