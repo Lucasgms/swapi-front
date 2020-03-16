@@ -28,9 +28,6 @@ const CharacterCard = ({ character }) => {
           </span>
         ))}
       </MoviesList>
-      <Button buttonClass={buttonClass}>
-        See more
-      </Button>
     </CardStyled>
   );
 };

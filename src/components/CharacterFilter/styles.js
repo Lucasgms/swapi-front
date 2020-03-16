@@ -4,6 +4,7 @@ export const CharacterFilterStyled = styled.div`
   width: 100%;
   padding: 16px;
   border-radius: 5px;
+  grid-area: filter;
 
   background: #FFF;
   box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, .2);

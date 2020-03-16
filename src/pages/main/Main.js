@@ -28,6 +28,7 @@ const Main = () => {
     <MainStyled>
       <CharacterFilter onSubmit={handleFilter} />
       <CharactersList
+        count={count}
         list={list}
         hasNext={pageInfo.hasNextPage}
         loadCharacters={loadMoreCharacters}
