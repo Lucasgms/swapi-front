@@ -3,9 +3,14 @@ import debounce from "lodash.debounce";
 
 import CharacterCard from '~/components/CharacterCard';
 
-import {ListStyled} from './styles'; 
+import {
+  ContainerStyled,
+  ListStyled,
+  TitleStyled,
+  PaginationCounterStyled,
+} from './styles'; 
 
-const CharactersList = ({list, hasNext, loadCharacters}) => {
+const CharactersList = ({count, list, hasNext, loadCharacters}) => {
 
   window.onscroll = debounce(() => {
     if (
@@ -18,14 +23,22 @@ const CharactersList = ({list, hasNext, loadCharacters}) => {
   }, 250);
 
   return (
-    <ListStyled>
-       {list.map(char => (
-          <CharacterCard
-            key={char.id}
-            character={char}
-          />
-        ))}
-    </ListStyled>
+    <ContainerStyled>
+      <div className="row">
+        <TitleStyled>Characters</TitleStyled>
+        <PaginationCounterStyled>
+          Showing {list.length} of <b>{count}</b>
+        </PaginationCounterStyled>
+      </div>
+      <ListStyled>
+        {list.map(char => (
+            <CharacterCard
+              key={char.id}
+              character={char}
+            />
+          ))}
+      </ListStyled>
+    </ContainerStyled>
   );
 };
 

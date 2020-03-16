@@ -72,11 +72,11 @@ const CharactersList = (length = 10, endCursor = "") => {
     ));
 
     const charList = subscribe ? characters : [...charactersList, ...characters];
+    const filteredCharList = filterCharacters(charList, filters);
+    
     setTotalCount(totalCount);
     setPageInfo(pageInfo);
-    setCharactersList(
-      filterCharacters(charList, filters)
-    );
+    setCharactersList(filteredCharList);
 
     setIsLoading(false)
   }

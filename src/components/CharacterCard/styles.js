@@ -1,4 +1,16 @@
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
+
+const borderAnimation = keyframes`
+  from {
+    border-width: 0;
+    border-height: 0;
+  }
+
+  to {
+    border-width: 100%;
+    border-height: 100%;
+  }
+`; 
 
 export const CardStyled = styled.div`
   width: 100%;
@@ -7,15 +19,21 @@ export const CardStyled = styled.div`
 
   display: flex;
   flex-direction: column;
-  align-items: center;
 
   background: #FFF;
-  box-shadow: 4px 4px 4px 0 rgba(0, 0, 0, .2);
+  border: 5px solid transparent;
+  box-shadow: 2px 2px 8px 0 rgba(0,0,0,0.1);
+
+  cursor: pointer;
+  transition: all .3s ease-in-out;
+
+  &:hover {
+    box-shadow: 2px 2px 24px 0 rgba(0,0,0,0.2);
+    border-color: #FFE81F;  
+  }
 `;
 
 export const CardMainText = styled.p`
-  margin: 16px 0;
-
   font-size: 24px;
   font-weight: 700;
   line-height: 36px;
@@ -28,7 +46,7 @@ export const CardText = styled.p`
   font-size: 16px;
   font-weight: 400;
   line-height: 24px;
-  color: #000;
+  color: #D0DDEA;
 `;
 
 export const CardLabel = styled.span`
@@ -36,8 +54,8 @@ export const CardLabel = styled.span`
 `;
 
 export const MoviesList = styled(CardText)`
-  height: 72px;
-  width: 75%;
-  margin: 0 auto;
-  text-align: center;
+  height: 96px;
+  margin: 0;
+  text-align: left;
+  color: #D0DDEA;
 `;

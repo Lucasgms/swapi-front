@@ -33,6 +33,4 @@ export const ButtonStyled = styled.button`
     border-color: ${blackColor};
     box-shadow: 2px 2px 16px 0 rgba(0,0,0,0.15);
   }
-
-
 `;
