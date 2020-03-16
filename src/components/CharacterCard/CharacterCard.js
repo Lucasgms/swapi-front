@@ -11,7 +11,7 @@ import {
 } from './styles';
 
 const CharacterCard = ({ character }) => {
-  const buttonType = 'primary';
+  const buttonClass = 'primary';
 
   return (
     <CardStyled>
@@ -28,7 +28,7 @@ const CharacterCard = ({ character }) => {
           </span>
         ))}
       </MoviesList>
-      <Button type={buttonType}>
+      <Button buttonClass={buttonClass}>
         See more
       </Button>
     </CardStyled>
