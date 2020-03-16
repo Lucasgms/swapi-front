@@ -11,11 +11,11 @@ export const ButtonStyled = styled.button`
   margin: 16px 0;
   padding: 0 20px;
 
-  border: 2px solid #FFE81F;
+  border: 2px solid ${primaryColor};
   border-radius: 4px;
 
-  color: ${props => props.primary ? blackColor : primaryColor};
-  background-color: ${props => props.primary ? primaryColor : 'transparent'};
+  color: ${blackColor};
+  background-color: ${primaryColor};
   box-shadow: 2px 2px 8px 0 rgba(0,0,0,0.1);
 
   font-size: 13px;
@@ -28,9 +28,11 @@ export const ButtonStyled = styled.button`
   transition: all 0.2s;
 
   &:hover {
-    color: ${props => props.primary ? primaryColor : blackColor};
-    background-color: ${props => props.primary ? blackColor : primaryColor};
-    border-color: ${props => props.primary ? blackColor : primaryColor};
+    color: ${primaryColor};
+    background-color: ${blackColor};
+    border-color: ${blackColor};
     box-shadow: 2px 2px 16px 0 rgba(0,0,0,0.15);
   }
+
+
 `;
