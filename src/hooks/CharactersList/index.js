@@ -10,18 +10,15 @@ const GET_LIST_PEOPLE = gql`
         hasNextPage,
         endCursor
       },
-      edges {
-        node {
-          id,
-          name,
-          gender,
-          filmConnection {
-            edges {
-              node {
-                id,
-                title
-              }
-            }
+      people {
+        id,
+        name,
+        gender,
+        birthYear,
+        filmConnection {
+          films {
+            id,
+            title
           }
         }
       }
@@ -29,27 +26,31 @@ const GET_LIST_PEOPLE = gql`
   }`
 ;
 
-const handleCharactersList = (characters) => {
-  const list = characters.map(char => {
-    let character = char.node;
-    let movies = character.filmConnection
-      .edges.map(movie => movie.node);
+function filterCharacters(list, filters) {
+  let newList = list;
 
-    return {
-      id: character.id,
-      name: character.name,
-      gender: character.gender,
-      movies
-    };
-  });
-  
-  return list;
-};
+  if (filters.name) newList = list
+    .filter(char => (char.name.includes(filters.name)));
+
+  if (filters.gender) newList = newList
+    .filter(char => (char.gender.toLowerCase()) === filters.gender.toLowerCase());
+
+  if (filters.birthYear) newList = newList
+    .filter(char => (char.birthYear === filters.birthYear));
+ 
+  return newList;
+}
 
 const CharactersList = (length = 10, endCursor = "") => {
   const [charactersList, setCharactersList] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [filters, setFilters] = useState({
+    name: '',
+    gender: '',
+    birthYear: ''
+  });
+
   const [pageInfo, setPageInfo] = useState({
     hasNextPage: false,
     endCursor: '',
@@ -59,20 +60,26 @@ const CharactersList = (length = 10, endCursor = "") => {
     variables: { length, endCursor }
   });
 
-  const updateListData = (list) => {
+  const updateListData = (list, subscribe = false) => {
     const {
       totalCount,
       pageInfo,
-      edges: characters
+      people: characters
     } = list.allPeople;
 
-    const newCharsList = handleCharactersList(characters);
+    characters.forEach(char => (
+      char.movies = char.filmConnection.films
+    ));
+
+    const charList = subscribe ? characters : [...charactersList, ...characters];
     setTotalCount(totalCount);
     setPageInfo(pageInfo);
-    setCharactersList([...charactersList, ...newCharsList]);
+    setCharactersList(
+      filterCharacters(charList, filters)
+    );
 
     setIsLoading(false)
-  };
+  }
 
   const fetchMoreCharacters = (length, endCursor) => {
     setIsLoading(true);
@@ -86,11 +93,18 @@ const CharactersList = (length = 10, endCursor = "") => {
 
   useEffect(() => {
     if (data) {
-      updateListData(data);
+      updateListData(data, true);
     }
-  }, [data]);
+  }, [data, filters]);
 
-  return [ charactersList, totalCount, pageInfo, isLoading, fetchMoreCharacters];
+  return [
+    charactersList,
+    totalCount,
+    pageInfo,
+    isLoading,
+    fetchMoreCharacters,
+    setFilters,
+  ];
 };
 
 export default CharactersList;
