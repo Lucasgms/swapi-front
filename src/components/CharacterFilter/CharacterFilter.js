@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import Button from '~/components/button';
 
 import {
-  buttonStyled,
   CharacterFilterStyled,
   TitleStyled,
   FormStyled,
@@ -11,7 +10,7 @@ import {
   SelectStyled,
 } from './styles';
 
-const CharacterFilter = () => {
+const CharacterFilter = ({ onSubmit }) => {
   const [name, setName]  = useState('');
   const [gender, setGender]  = useState('');
   const [birthYear, setBirthYear]  = useState('');
@@ -20,8 +19,18 @@ const CharacterFilter = () => {
 
   const genders = ['Male', 'Female', 'unknown', 'n/a'];
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    await onSubmit({
+      name,
+      gender,
+      birthYear,
+    });
+  }
+
   return (
-    <CharacterFilterStyled>
+    <CharacterFilterStyled onSubmit={handleSubmit}>
       <TitleStyled>Filters</TitleStyled>
       <FormStyled action="">
         <InputBlockStyled className="input-block">
@@ -31,7 +40,7 @@ const CharacterFilter = () => {
             id="name"
             value={name}
             onChange={e => setName(e.target.value)}
-            autocomplete="off"
+            autoComplete="off"
           />
         </InputBlockStyled>
         <InputBlockStyled className="input-block">
@@ -39,7 +48,10 @@ const CharacterFilter = () => {
           <SelectStyled
             name="gender"
             id="gender"
+            onChange={e => setGender(e.target.value)}
+            value={gender}
           >
+            <option value="" defaultValue>Select gender</option>
             {genders.map((gender, index) => (
               <option key={index} value={gender}>{gender}</option>
             ))}

@@ -7,15 +7,26 @@ import CharacterFilter from '~/components/CharacterFilter';
 import { MainStyled } from './styles';
 
 const Main = () => {
-  const [list, count, pageInfo, isLoading, getMore] = useCharactersList();
+  const [
+    list,
+    count,
+    pageInfo,
+    isLoading,
+    getMore,
+    setFilters,
+  ] = useCharactersList();
 
-  const loadMoreCharacters = () => {
+  function loadMoreCharacters() {
     getMore(10, pageInfo.endCursor);
+  }
+
+  async function handleFilter(data) {
+    setFilters(data);
   }
 
   return (
     <MainStyled>
-      <CharacterFilter />
+      <CharacterFilter onSubmit={handleFilter} />
       <CharactersList
         list={list}
         hasNext={pageInfo.hasNextPage}

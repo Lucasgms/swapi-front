@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 
-import Button from '~/components/button';
-
 export const CharacterFilterStyled = styled.div`
   width: 100%;
   padding: 16px;
