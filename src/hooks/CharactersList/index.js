@@ -49,6 +49,7 @@ const handleCharactersList = (characters) => {
 const CharactersList = (length = 10, endCursor = "") => {
   const [charactersList, setCharactersList] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [pageInfo, setPageInfo] = useState({
     hasNextPage: false,
     endCursor: '',
@@ -69,9 +70,12 @@ const CharactersList = (length = 10, endCursor = "") => {
     setTotalCount(totalCount);
     setPageInfo(pageInfo);
     setCharactersList([...charactersList, ...newCharsList]);
+
+    setIsLoading(false)
   };
 
   const fetchMoreCharacters = (length, endCursor) => {
+    setIsLoading(true);
     fetchMore({
       variables: { length, endCursor },
       updateQuery: (prev, { fetchMoreResult }) => {
@@ -86,7 +90,7 @@ const CharactersList = (length = 10, endCursor = "") => {
     }
   }, [data]);
 
-  return [ charactersList, totalCount, pageInfo, fetchMoreCharacters];
+  return [ charactersList, totalCount, pageInfo, isLoading, fetchMoreCharacters];
 };
 
 export default CharactersList;
