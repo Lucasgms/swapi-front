@@ -7,7 +7,7 @@ import {
   ModalCloseStyled,
   TitleStyled,
 } from './styles';
-import useCharacterDetails  from '~/hooks/CharacterDetails';
+import useCharacterDetails  from '../../hooks/CharacterDetails';
 
 const CharacterModal = ({ id, onClose }) => {
   const [character] = useCharacterDetails(id);
@@ -19,8 +19,6 @@ const CharacterModal = ({ id, onClose }) => {
       document.body.classList.remove('no-scroll');
     }
   }, []);
-
-  console.log(character);
 
   return (
     <ModalOverlay>

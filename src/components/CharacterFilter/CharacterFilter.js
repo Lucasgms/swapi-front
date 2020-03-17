@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Button from '~/components/button';
+import Button from '../button';
 
 import {
   CharacterFilterStyled,
