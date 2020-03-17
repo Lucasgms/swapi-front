@@ -1,9 +1,9 @@
 This project consumes Star Wars GraphQL server.
 You can list SW characters and filter them.
 
-[https://swapi-client-react.herokuapp.com/](DEMO)
+[DEMO](https://swapi-client-react.herokuapp.com/)
 
-[https://github.com/Lucasgms/swapi-graphql](Server repository)
+[Server repository](https://github.com/Lucasgms/swapi-graphql)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
