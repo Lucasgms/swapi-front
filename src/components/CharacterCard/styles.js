@@ -1,16 +1,4 @@
-import styled, {keyframes} from 'styled-components';
-
-const borderAnimation = keyframes`
-  from {
-    border-width: 0;
-    border-height: 0;
-  }
-
-  to {
-    border-width: 100%;
-    border-height: 100%;
-  }
-`; 
+import styled from 'styled-components';
 
 export const CardStyled = styled.div`
   width: 100%;

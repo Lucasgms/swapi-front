@@ -1,7 +1,5 @@
 import React from 'react';
 
-import Button from '~/components/button';
-
 import {
   CardStyled,
   CardMainText,
@@ -11,8 +9,6 @@ import {
 } from './styles';
 
 const CharacterCard = ({ character, onClick }) => {
-  const buttonClass = 'primary';
-
   const handleCardClick = (e, id) => {
     e.preventDefault();
 
