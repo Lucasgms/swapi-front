@@ -10,7 +10,13 @@ import {
   PaginationCounterStyled,
 } from './styles'; 
 
-const CharactersList = ({count, list, hasNext, loadCharacters}) => {
+const CharactersList = ({
+  count,
+  list,
+  hasNext,
+  loadCharacters,
+  onClickDetails,
+}) => {
 
   window.onscroll = debounce(() => {
     if (
@@ -35,6 +41,7 @@ const CharactersList = ({count, list, hasNext, loadCharacters}) => {
             <CharacterCard
               key={char.id}
               character={char}
+              onClick={onClickDetails}
             />
           ))}
       </ListStyled>

@@ -10,11 +10,17 @@ import {
   MoviesList,
 } from './styles';
 
-const CharacterCard = ({ character }) => {
+const CharacterCard = ({ character, onClick }) => {
   const buttonClass = 'primary';
 
+  const handleCardClick = (e, id) => {
+    e.preventDefault();
+
+    onClick(id);
+  }
+
   return (
-    <CardStyled>
+    <CardStyled onClick={(e) => handleCardClick(e, character.id)}>
       <CardMainText>{character.name}</CardMainText>
       <CardText>
           <CardLabel>Gender: </CardLabel>
