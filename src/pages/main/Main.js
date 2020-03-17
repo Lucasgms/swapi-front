@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 
-import useCharactersList  from '~/hooks/CharactersList';
-import CharactersList from '~/components/CharactersList';
-import CharacterFilter from '~/components/CharacterFilter';
-import CharacterModal from '~/components/CharacterModal';
+import useCharactersList  from '../../hooks/CharactersList';
+import CharactersList from '../../components/CharactersList';
+import CharacterFilter from '../../components/CharacterFilter';
+import CharacterModal from '../../components/CharacterModal';
 
 import { MainStyled } from './styles';
 

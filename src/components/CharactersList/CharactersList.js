@@ -1,7 +1,7 @@
 import React from 'react';
 import debounce from "lodash.debounce";
 
-import CharacterCard from '~/components/CharacterCard';
+import CharacterCard from '../CharacterCard';
 
 import {
   ContainerStyled,
